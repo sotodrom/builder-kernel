@@ -136,15 +136,15 @@ function push() {
         <b>📅 Build Date: </b>
         -<code>$DATE</code>
         <b>🐧 Linux Version: </b>
-        -<code>4.4.302</code>
+        -<code>4.19.308</code>
          <b>💿 Compiler: </b>
         -<code>$KBUILD_COMPILER_STRING</code>
         <b>📱 Device: </b>
-        -<code>kernel($MANUFACTURERINFO)</code>
+        -<code>($MANUFACTURERINFO)</code>
         <b>🆑 Changelog: </b>
         - <code>$COMMIT_HEAD</code>
         <b></b>
-        #$KERNELNAME #$CODENAME #$VARIANT"
+        #$KERNELNAME"
 }
 # Find Error
 function finerr() {
