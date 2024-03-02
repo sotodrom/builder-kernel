@@ -45,7 +45,7 @@ ZIPNAME="$KERNELNAME-Kernel-4-19"
 MANUFACTURERINFO="ASUSTek Computer Inc."
 
 # Clone Kernel Source
-git clone --recursive https://$USERNAME:$TOKEN@github.com/Tiktodz/android_kernel_asus_sdm660 -b tom/clo kernel
+git clone --recursive https://$USERNAME:$TOKEN@github.com/Tiktodz/android_kernel_asus_sdm660 -b tom/u kernel
 
 # Clone AOSP Clang
 ClangPath=${MainClangZipPath}
