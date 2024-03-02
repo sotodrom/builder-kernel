@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Copyright (C) 2023-2024 Kneba <abenkenary3@gmail.com>
+# Copyright (C) 2023 Kneba <abenkenary3@gmail.com>
 #
 
 #
@@ -35,11 +35,11 @@ MainZipGCCbPath="${MainPath}/GCC32-zip"
 # Identity
 KERNELNAME=TheOneMemory
 CODENAME=Hayzel
-VARIANT=HMP
-BASE=CLO
+VARIANT=EAS
+BASE=Longterm
 
 # The name of the Kernel, to name the ZIP
-ZIPNAME="$KERNELNAME-Kernel-4-19"
+ZIPNAME="$KERNELNAME-Kernel-4-19-KSU"
 
 # Show manufacturer info
 MANUFACTURERINFO="ASUSTek Computer Inc."
@@ -54,8 +54,8 @@ rm -rf $ClangPath/*
 mkdir $ClangPath
 
 #git clone --depth=1 https://gitlab.com/ImSurajxD/clang-r450784d -b master $ClangPath
-wget -q https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/master/clang-r498229b.tar.gz -O "clang-r498229b.tar.gz"
-tar -xf clang-r498229b.tar.gz -C $ClangPath
+wget -q https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/master/clang-r487747c.tar.gz -O "clang-r487747c.tar.gz"
+tar -xf clang-r487747c.tar.gz -C $ClangPath
 
 # Clone GCC
 rm -rf $GCCaPath/*
@@ -72,10 +72,10 @@ KERNEL_ROOTDIR=$(pwd)/kernel # IMPORTANT ! Fill with your kernel source root dir
 export LD=ld.lld
 export HOSTLD=ld.lld
 export KBUILD_BUILD_USER=queen # Change with your own name or else.
-IMAGE=$(pwd)/kernel/out/arch/arm64/boot/Image.gz-dtb
+IMAGE=$KERNEL_ROOTDIR/out/arch/arm64/boot/Image.gz-dtb
 CLANG_VER="$("$ClangPath"/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')"
 LLD_VER="$("$ClangPath"/bin/ld.lld --version | head -n 1)"
-export KBUILD_COMPILER_STRING="$CLANG_VER"
+export KBUILD_COMPILER_STRING="$CLANG_VER with $LLD_VER"
 DATE=$(date +"%d%m%Y")
 START=$(date +"%s")
 
@@ -121,12 +121,12 @@ make -j$(nproc) ARCH=arm64 O=out \
 	finerr
 	exit 1
    fi
-   git clone https://github.com/Tiktodz/AnyKernel3 -b 419 AnyKernel3
-   cp $IMAGE AnyKernel3
+   git clone --depth=1 https://github.com/Tiktodz/AnyKernel3 -b 419 AnyKernel
+   cp $IMAGE AnyKernel
 }
 # Push kernel to telegram
 function push() {
-    cd AnyKernel3
+    cd AnyKernel
     curl -F document="@$ZIP_FINAL.zip" "https://api.telegram.org/bot$TG_TOKEN/sendDocument" \
         -F chat_id="$TG_CHAT_ID" \
         -F "disable_web_page_preview=true" \
@@ -144,7 +144,7 @@ function push() {
         <b>🆑 Changelog: </b>
         - <code>$COMMIT_HEAD</code>
         <b></b>
-        #$KERNELNAME"
+        #$KERNELNAME #$CODENAME #$VARIANT"
 }
 # Find Error
 function finerr() {
@@ -157,8 +157,8 @@ function finerr() {
 }
 # Zipping
 function zipping() {
-	cd AnyKernel3 || exit 1
-	zip -r9 "$ZIPNAME-"$DATE" * -x .git README.md .gitignore zipsigner* "*.zip"
+	cd AnyKernel || exit 1
+	zip -r9 $ZIPNAME-"$DATE" * -x .git README.md anykernel-real.sh .gitignore zipsigner* *.zip
  
 	## Prepare a final zip variable
 	ZIP_FINAL="$ZIPNAME-$DATE"
