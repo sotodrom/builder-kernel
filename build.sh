@@ -50,7 +50,7 @@ MANUFACTURERINFO="ASUSTek Computer Inc."
 # Clone Kernel Source
 echo " "
 msg "|| Cloning Kernel Source ||"
-git clone --depth=1 --recursive https://$USERNAME:$TOKEN@github.com/Tiktodz/android_kernel_asus_sdm660 -b tom/uxoc kernel
+git clone --depth=1 --recursive https://$USERNAME:$TOKEN@github.com/Tiktodz/android_kernel_asus_sdm660 -b tom/u kernel
 
 # Clone AOSP Clang
 ClangPath=${MainClangZipPath}
@@ -118,6 +118,8 @@ tg_post_msg() {
     -d "parse_mode=html" \
     -d text="$1"
 }
+# Speed up build process
+MAKE="./makeparallel"
 # Compiler
 compile(){
 cd ${KERNEL_ROOTDIR}
@@ -185,7 +187,7 @@ function finerr() {
 # Zipping
 function zipping() {
 	cd AnyKernel || exit 1
-	zip -r9 $ZIPNAME-"$DATE" * -x .git README.md anykernel-real.sh .gitignore zipsigner* *.zip
+	zip -r9 $ZIPNAME-"$DATE" * -x .git README.md placeholder .gitignore zipsigner* *.zip
  
 	## Prepare a final zip variable
 	ZIP_FINAL="$ZIPNAME-$DATE"
