@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Setup env
-        run: pacman -Syu --needed --noconfirm wget make base-devel xmlto llvm lld jdk-openjdk inetutils bc cpio graphviz imagemagick git python3 zip gzip pip tzdata curl
+        run: pacman -Syu --needed --noconfirm wget make base-devel xmlto llvm lld jdk-openjdk inetutils bc cpio graphviz imagemagick git python3 zip gzip tzdata curl
       - name: Build Kernel
         env:
           TOKEN: ${{ secrets.TOKEN }}
