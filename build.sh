@@ -27,13 +27,9 @@ cdir() {
 
 # Main
 MainPath="$(pwd)"
-MainClangPath="${MainPath}/clang"
-MainClangZipPath="${MainPath}/clang-zip"
-ClangPath="${MainClangZipPath}"
+ClangPath="${MainPath}/clang"
 GCCaPath="${MainPath}/GCC64"
 GCCbPath="${MainPath}/GCC32"
-MainZipGCCaPath="${MainPath}/GCC64-zip"
-MainZipGCCbPath="${MainPath}/GCC32-zip"
 
 # Identity
 KERNELNAME=TheOneMemory
@@ -42,7 +38,7 @@ VARIANT=EAS
 BASE=Longterm
 
 # The name of the Kernel, to name the ZIP
-ZIPNAME="$KERNELNAME-Kernel-4-19-KSU-OC"
+ZIPNAME="$KERNELNAME-Kernel-4-19-KSU"
 
 # Show manufacturer info
 MANUFACTURERINFO="ASUSTek Computer Inc."
@@ -53,7 +49,6 @@ msg "|| Cloning Kernel Source ||"
 git clone --depth=1 --recursive https://$USERNAME:$TOKEN@github.com/Tiktodz/android_kernel_asus_sdm660 -b tom/u kernel
 
 # Clone AOSP Clang
-ClangPath=${MainClangZipPath}
 [[ "$(pwd)" != "${MainPath}" ]] && cd "${MainPath}"
 rm -rf $ClangPath/*
 mkdir $ClangPath
@@ -85,7 +80,7 @@ export KBUILD_BUILD_USER=queen # Change with your own name or else.
 IMAGE=$KERNEL_ROOTDIR/out/arch/arm64/boot/Image.gz-dtb
 CLANG_VER="$("$ClangPath"/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')"
 LLD_VER="$("$ClangPath"/bin/ld.lld --version | head -n 1)"
-export KBUILD_COMPILER_STRING="$CLANG_VER with $LLD_VER"
+export KBUILD_COMPILER_STRING="$CLANG_VER"
 DATE=$(date +"%d%m%Y")
 START=$(date +"%s")
 
@@ -93,7 +88,7 @@ START=$(date +"%s")
 command -v java > /dev/null 2>&1
 
 # Check Kernel Version
-KERVER=$(make kernelversion)
+KERVER=$(cd $KERNEL_ROOTDIR; make kernelversion)
 
 # Telegram
 export BOT_MSG_URL="https://api.telegram.org/bot$TG_TOKEN/sendMessage"
