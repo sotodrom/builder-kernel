@@ -80,7 +80,7 @@ export KBUILD_BUILD_USER=queen # Change with your own name or else.
 IMAGE=$KERNEL_ROOTDIR/out/arch/arm64/boot/Image.gz-dtb
 CLANG_VER="$("$ClangPath"/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')"
 LLD_VER="$("$ClangPath"/bin/ld.lld --version | head -n 1)"
-export KBUILD_COMPILER_STRING="$CLANG_VER"
+export KBUILD_COMPILER_STRING="$CLANG_VER with $LLD_VER"
 DATE=$(date +"%d%m%Y")
 START=$(date +"%s")
 
@@ -165,10 +165,10 @@ function push() {
         -<code>$KBUILD_COMPILER_STRING</code>
         <b>📱 Device: </b>
         -<code>($MANUFACTURERINFO)</code>
-        <b>🆑 Changelog: </b>
-        -<code>$COMMIT_HEAD</code>
+        <b>Ⓜ️ MD5 Checksum: </b>
+        -<code>$MD5CHECK</code>
         <b></b>
-        #$KERNELNAME #$CODENAME #$VARIANT"
+        #$KERNELNAME #$VARIANT"
 }
 # Find Error
 function finerr() {
