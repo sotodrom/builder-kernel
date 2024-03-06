@@ -156,7 +156,7 @@ function push() {
         -F "disable_web_page_preview=true" \
         -F "parse_mode=html" \
         -F caption="🔐<b>Build Done</b>
-        - <code>$((DIFF / 60)) minute(s) $((DIFF % 60)) second(s)... </code>
+        -<code>$((DIFF / 60)) minute(s) $((DIFF % 60)) second(s)... </code>
         <b>📅 Build Date: </b>
         -<code>$DATE</code>
         <b>🐧 Linux Version: </b>
@@ -166,7 +166,7 @@ function push() {
         <b>📱 Device: </b>
         -<code>($MANUFACTURERINFO)</code>
         <b>🆑 Changelog: </b>
-        - <code>$COMMIT_HEAD</code>
+        -<code>$COMMIT_HEAD</code>
         <b></b>
         #$KERNELNAME #$CODENAME #$VARIANT"
 }
