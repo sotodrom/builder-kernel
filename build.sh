@@ -155,7 +155,7 @@ function push() {
         -F chat_id="$TG_CHAT_ID" \
         -F "disable_web_page_preview=true" \
         -F "parse_mode=html" \
-        -F caption="🔐<b>Build Done</b>
+        -F caption="<b>✅ Build Done</b>
         -<code>$((DIFF / 60)) minute(s) $((DIFF % 60)) second(s)... </code>
         <b>📅 Build Date: </b>
         -<code>$DATE</code>
@@ -165,10 +165,8 @@ function push() {
         -<code>$KBUILD_COMPILER_STRING</code>
         <b>📱 Device: </b>
         -<code>($MANUFACTURERINFO)</code>
-        <b>Ⓜ️ MD5 Checksum: </b>
-        -<code>$MD5CHECK</code>
-        <b></b>
-        #$KERNELNAME #$VARIANT"
+        <b>🆑 Changelog: </b>
+        -<code>$COMMIT_HEAD</code>"
 }
 # Find Error
 function finerr() {
