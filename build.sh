@@ -38,7 +38,7 @@ VARIANT=EAS
 BASE=Longterm
 
 # The name of the Kernel, to name the ZIP
-ZIPNAME="$KERNELNAME-Kernel-4-19-KSU-OC"
+ZIPNAME="$KERNELNAME-Kernel-4-19"
 
 # Show manufacturer info
 MANUFACTURERINFO="ASUSTek Computer Inc."
@@ -46,7 +46,7 @@ MANUFACTURERINFO="ASUSTek Computer Inc."
 # Clone Kernel Source
 echo " "
 msg "|| Cloning Kernel Source ||"
-git clone --depth=1 --recursive https://$USERNAME:$TOKEN@github.com/Tiktodz/android_kernel_asus_sdm660 -b tom/uxoc kernel
+git clone --depth=1 --recursive https://$USERNAME:$TOKEN@github.com/Tiktodz/android_kernel_asus_sdm660 -b tom/u kernel
 
 # Clone AOSP Clang
 [[ "$(pwd)" != "${MainPath}" ]] && cd "${MainPath}"
@@ -81,7 +81,7 @@ IMAGE=$KERNEL_ROOTDIR/out/arch/arm64/boot/Image.gz-dtb
 CLANG_VER="$("$ClangPath"/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')"
 LLD_VER="$("$ClangPath"/bin/ld.lld --version | head -n 1)"
 export KBUILD_COMPILER_STRING="$CLANG_VER with $LLD_VER"
-DATE=$(date +"%d%m%Y")
+DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%H%M")
 START=$(date +"%s")
 
 # Java
