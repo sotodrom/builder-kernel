@@ -151,11 +151,11 @@ make -j$(nproc) ARCH=arm64 O=out \
 # Push kernel to telegram
 function push() {
     cd AnyKernel
-    curl -F document="@$ZIP_FINAL.zip" "$BOT_BUILD_URL" \
+    curl -F document=@"$ZIP_FINAL.zip" "$BOT_BUILD_URL" \
         -F chat_id="$TG_CHAT_ID" \
         -F "disable_web_page_preview=true" \
         -F "parse_mode=html" \
-        -F caption="<b>✅ Build Done</b>
+        -F caption="✅<b>Build Done</b>
         -<code>$((DIFF / 60)) minute(s) $((DIFF % 60)) second(s)... </code>
         <b>📅 Build Date: </b>
         -<code>$DATE</code>
