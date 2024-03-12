@@ -1,6 +1,6 @@
 # Formative Kernel Building Script With Actions
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/fea8f0c3f7b0459e923d714b13a739c0)](https://app.codacy.com/gh/strongreasons/compile-kernel/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/fea8f0c3f7b0459e923d714b13a739c0)](https://app.codacy.com/gh/Kneba/aosp/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 ## A useful script for building custom kernel for Android Devices
 ### This is a script which I use to compile custom kenel for my devices. It was written keeping in mind about compiling a standalone kernel in CI Deployments.
 
