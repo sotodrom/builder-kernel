@@ -32,13 +32,13 @@ GCCaPath="${MainPath}/GCC64"
 GCCbPath="${MainPath}/GCC32"
 
 # Identity
-KERNELNAME=perf
+KERNELNAME=TheOneMemory
 CODENAME=Hayzel
 VARIANT=EAS
 BASE=Longterm
 
 # The name of the Kernel, to name the ZIP
-ZIPNAME="$KERNELNAME-4-19-sdm660"
+ZIPNAME="$KERNELNAME-Kernel-4-19"
 
 # Show manufacturer info
 MANUFACTURERINFO="ASUSTek Computer Inc."
@@ -46,7 +46,7 @@ MANUFACTURERINFO="ASUSTek Computer Inc."
 # Clone Kernel Source
 echo " "
 msg "|| Cloning Kernel Source ||"
-git clone --depth=1 --recursive https://$USERNAME:$TOKEN@github.com/Tiktodz/android_kernel_asus_sdm660 -b sdm660 kernel
+git clone --depth=1 --recursive https://$USERNAME:$TOKEN@github.com/$USERNAME/android_kernel_asus_sdm660 kernel
 
 # Clone AOSP Clang
 [[ "$(pwd)" != "${MainPath}" ]] && cd "${MainPath}"
