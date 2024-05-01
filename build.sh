@@ -38,7 +38,7 @@ VARIANT=EAS
 BASE=longterm
 
 # The name of the Kernel, to name the ZIP
-ZIPNAME="$KERNELNAME-4-19"
+ZIPNAME="$KERNELNAME-14-4-4"
 
 # Show manufacturer info
 MANUFACTURERINFO="ASUSTek Computer Inc."
@@ -46,7 +46,7 @@ MANUFACTURERINFO="ASUSTek Computer Inc."
 # Clone Kernel Source
 echo " "
 msg "|| Cloning Kernel Source ||"
-git clone --depth=1 --recursive https://$USERNAME:$TOKEN@github.com/Tiktodz/android_kernel_asus_sdm660 kernel
+git clone --depth=1 https://$USERNAME:$TOKEN@github.com/Tiktodz/android_kernel_asus_sdm636 -b 14 kernel
 
 # Clone AOSP Clang
 [[ "$(pwd)" != "${MainPath}" ]] && cd "${MainPath}"
@@ -121,7 +121,7 @@ cd ${KERNEL_ROOTDIR}
 export HASH_HEAD=$(git rev-parse --short HEAD)
 export COMMIT_HEAD=$(git log --oneline -1)
 msg "|| Compile starting ||"
-make -j$(nproc) O=out ARCH=arm64 vendor/X00TD_defconfig
+make -j$(nproc) O=out ARCH=arm64 X00TD_defconfig
 make -j$(nproc) ARCH=arm64 O=out \
     LD_LIBRARY_PATH="${ClangPath}/lib64:${LD_LIBRARY_PATH}" \
     PATH=$ClangPath/bin:$GCCaPath/bin:$GCCbPath/bin:/usr/bin:${PATH} \
