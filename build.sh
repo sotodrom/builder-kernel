@@ -34,7 +34,7 @@ GCCbPath="${MainPath}/GCC32"
 # Identity
 KERNELNAME=TheOneMemory
 CODENAME=Hayzel
-VARIANT=EAS
+VARIANT=HMP
 BASE=longterm
 
 # The name of the Kernel, to name the ZIP
