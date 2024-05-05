@@ -145,7 +145,7 @@ make -j$(nproc) ARCH=arm64 O=out \
 	finerr
 	exit 1
    fi
-   git clone --depth=1 https://github.com/Tiktodz/AnyKernel3 -b 419 AnyKernel
+   git clone --depth=1 https://github.com/Tiktodz/AnyKernel3 -b 44 AnyKernel
    cp $IMAGE AnyKernel
 }
 # Push kernel to telegram
