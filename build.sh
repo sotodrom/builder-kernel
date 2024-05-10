@@ -46,7 +46,7 @@ MANUFACTURERINFO="ASUSTek Computer Inc."
 # Clone Kernel Source
 echo " "
 msg "|| Cloning Kernel Source ||"
-git clone --depth=1 --recursive https://$USERNAME:$TOKEN@github.com/Tiktodz/android_kernel_asus_sdm636 -b 14-ksu kernel
+git clone --depth=1 https://$USERNAME:$TOKEN@github.com/Tiktodz/android_kernel_asus_sdm636 -b 14 kernel
 
 # Clone AOSP Clang
 [[ "$(pwd)" != "${MainPath}" ]] && cd "${MainPath}"
