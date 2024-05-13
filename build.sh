@@ -114,7 +114,7 @@ tg_post_msg() {
     -d text="$1"
 }
 # Speed up build process
-MAKE="./makeparallel"
+make="./makeparallel"
 # Compiler
 compile(){
 cd ${KERNEL_ROOTDIR}
