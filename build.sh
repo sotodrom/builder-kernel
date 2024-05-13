@@ -38,7 +38,7 @@ VARIANT=HMP
 BASE=longterm
 
 # The name of the Kernel, to name the ZIP
-ZIPNAME="$KERNELNAME-14-4-4"
+ZIPNAME="$KERNELNAME-14-4-4-wip"
 
 # Show manufacturer info
 MANUFACTURERINFO="ASUSTek Computer Inc."
@@ -46,7 +46,7 @@ MANUFACTURERINFO="ASUSTek Computer Inc."
 # Clone Kernel Source
 echo " "
 msg "|| Cloning Kernel Source ||"
-git clone --depth=1 --recursive https://$USERNAME:$TOKEN@github.com/Tiktodz/android_kernel_asus_sdm636 -b 14-ksu kernel
+git clone --depth=1 --recursive https://$USERNAME:$TOKEN@github.com/Tiktodz/android_kernel_asus_sdm636 -b wip kernel
 
 # Clone AOSP Clang
 [[ "$(pwd)" != "${MainPath}" ]] && cd "${MainPath}"
