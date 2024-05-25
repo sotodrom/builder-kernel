@@ -32,13 +32,13 @@ GCCaPath="${MainPath}/GCC64"
 GCCbPath="${MainPath}/GCC32"
 
 # Identity
-KERNELNAME=lineageos
-CODENAME=rebase
-VARIANT=eas
-BASE=longterm
+KERNELNAME=TheOneMemory
+CODENAME=Nothing
+VARIANT=EAS
+BASE=kernel-common
 
 # The name of the Kernel, to name the ZIP
-ZIPNAME="$KERNELNAME-UDC-$VARIANT"
+ZIPNAME="$KERNELNAME-UDC-"
 
 # Show manufacturer info
 MANUFACTURERINFO="ASUSTek Computer Inc."
@@ -46,7 +46,7 @@ MANUFACTURERINFO="ASUSTek Computer Inc."
 # Clone Kernel Source
 echo " "
 msg "|| Cloning Kernel Source ||"
-git clone --depth=1 --recursive https://$USERNAME:$TOKEN@github.com/Tiktodz/android_kernel_asus_sdm636 -b 14-eas kernel
+git clone --depth=1 --recursive https://$USERNAME:$TOKEN@github.com/Tiktodz/android_kernel_asus_sdm660 -b tree kernel
 
 # Clone AOSP Clang
 [[ "$(pwd)" != "${MainPath}" ]] && cd "${MainPath}"
@@ -121,7 +121,7 @@ cd ${KERNEL_ROOTDIR}
 export HASH_HEAD=$(git rev-parse --short HEAD)
 export COMMIT_HEAD=$(git log --oneline -1)
 msg "|| Compile starting ||"
-make -j$(nproc) O=out ARCH=arm64 X00TD_defconfig
+make -j$(nproc) O=out ARCH=arm64 vendor/X00TD_defconfig
 make -j$(nproc) ARCH=arm64 O=out \
     LD_LIBRARY_PATH="${ClangPath}/lib64:${LD_LIBRARY_PATH}" \
     PATH=$ClangPath/bin:$GCCaPath/bin:$GCCbPath/bin:/usr/bin:${PATH} \
@@ -145,7 +145,7 @@ make -j$(nproc) ARCH=arm64 O=out \
 	finerr
 	exit 1
    fi
-   git clone --depth=1 https://github.com/Tiktodz/AnyKernel3 -b 44 AnyKernel
+   git clone --depth=1 https://github.com/Tiktodz/AnyKernel3 -b 419 AnyKernel
    cp $IMAGE AnyKernel
 }
 # Push kernel to telegram
@@ -180,10 +180,10 @@ function finerr() {
 # Zipping
 function zipping() {
 	cd AnyKernel || exit 1
-	zip -r9 $ZIPNAME-"$DATE" * -x .git README.md placeholder .gitignore zipsigner* *.zip
+	zip -r9 $ZIPNAME-$KERVER-"$DATE" * -x .git README.md placeholder .gitignore zipsigner* *.zip
  
 	## Prepare a final zip variable
-	ZIP_FINAL="$ZIPNAME-$DATE"
+	ZIP_FINAL="$ZIPNAME-$KERVER-$DATE"
 
 	msg "|| Signing Zip ||"
 	tg_post_msg "<code>🔑 Signing Zip file with AOSP keys..</code>"
