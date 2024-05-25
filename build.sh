@@ -38,7 +38,7 @@ VARIANT=EAS
 BASE=kernel-common
 
 # The name of the Kernel, to name the ZIP
-ZIPNAME="$KERNELNAME-UDC-"
+ZIPNAME="$KERNELNAME-UDC-4-19-306"
 
 # Show manufacturer info
 MANUFACTURERINFO="ASUSTek Computer Inc."
@@ -180,10 +180,10 @@ function finerr() {
 # Zipping
 function zipping() {
 	cd AnyKernel || exit 1
-	zip -r9 $ZIPNAME-$KERVER-"$DATE" * -x .git README.md placeholder .gitignore zipsigner* *.zip
+	zip -r9 $ZIPNAME-"$DATE" * -x .git README.md placeholder .gitignore zipsigner* *.zip
  
 	## Prepare a final zip variable
-	ZIP_FINAL="$ZIPNAME-$KERVER-$DATE"
+	ZIP_FINAL="$ZIPNAME-$DATE"
 
 	msg "|| Signing Zip ||"
 	tg_post_msg "<code>🔑 Signing Zip file with AOSP keys..</code>"
