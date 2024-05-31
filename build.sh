@@ -38,7 +38,7 @@ VARIANT=EAS
 BASE=kernel-common
 
 # The name of the Kernel, to name the ZIP
-ZIPNAME="$KERNELNAME-UDC-4-19-306"
+ZIPNAME="$KERNELNAME-UDC-4-19-312"
 
 # Show manufacturer info
 MANUFACTURERINFO="ASUSTek Computer Inc."
@@ -82,6 +82,7 @@ CLANG_VER="$("$ClangPath"/bin/clang --version | head -n 1 | perl -pe 's/\(http.*
 LLD_VER="$("$ClangPath"/bin/ld.lld --version | head -n 1)"
 export KBUILD_COMPILER_STRING="$CLANG_VER with $LLD_VER"
 DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%H%M")
+DATE2=$(TZ=Asia/Jakarta date +"%Y%m%d")
 START=$(date +"%s")
 
 # Java
@@ -180,10 +181,10 @@ function finerr() {
 # Zipping
 function zipping() {
 	cd AnyKernel || exit 1
-	zip -r9 $ZIPNAME-"$DATE" * -x .git README.md placeholder .gitignore zipsigner* *.zip
+	zip -r9 $ZIPNAME-"$DATE2" * -x .git README.md placeholder .gitignore *.zip
  
 	## Prepare a final zip variable
-	ZIP_FINAL="$ZIPNAME-$DATE"
+	ZIP_FINAL="$ZIPNAME-$DATE2"
 
 	msg "|| Signing Zip ||"
 	tg_post_msg "<code>🔑 Signing Zip file with AOSP keys..</code>"
