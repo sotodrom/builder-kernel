@@ -35,7 +35,7 @@ GCCbPath="${MainPath}/GCC32"
 KERNELNAME=TheOneMemory
 CODENAME=Nothing
 VARIANT=EAS
-BASE=kernel-common
+BASE=android13-4.19-sdm660
 
 # The name of the Kernel, to name the ZIP
 ZIPNAME="$KERNELNAME-UDC-4-19-TEST"
@@ -79,6 +79,7 @@ KERNEL_ROOTDIR=$(pwd)/kernel # IMPORTANT ! Fill with your kernel source root dir
 export LD=ld.lld
 export HOSTLD=ld.lld
 export KBUILD_BUILD_USER=queen # Change with your own name or else.
+export KBUILD_BUILD_USER=github-actions # Change with your own name or else.
 IMAGE=$KERNEL_ROOTDIR/out/arch/arm64/boot/Image.gz-dtb
 CLANG_VER="$("$ClangPath"/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')"
 LLD_VER="$("$ClangPath"/bin/ld.lld --version | head -n 1)"
@@ -183,7 +184,7 @@ function finerr() {
 # Zipping
 function zipping() {
 	cd AnyKernel || exit 1
-	zip -r9 $ZIPNAME-"$DATE2" * -x .git README.md placeholder .gitignore *.zip
+	zip -r9 $ZIPNAME-"$DATE2" * -x .git README.md ./*placeholder .gitignore  zipsigner* *.zip
  
 	## Prepare a final zip variable
 	ZIP_FINAL="$ZIPNAME-$DATE2"
@@ -191,8 +192,8 @@ function zipping() {
 	msg "|| Signing Zip ||"
 	tg_post_msg "<code>🔑 Signing Zip file with AOSP keys..</code>"
 
-	curl -sLo zipsigner-3.0.jar https://github.com/Magisk-Modules-Repo/zipsigner/raw/master/bin/zipsigner-3.0-dexed.jar
-	java -jar zipsigner-3.0.jar "$ZIP_FINAL".zip "$ZIP_FINAL"-signed.zip
+	curl -sLo zipsigner-3.0-dexed.jar https://github.com/Magisk-Modules-Repo/zipsigner/raw/master/bin/zipsigner-3.0-dexed.jar
+	java -jar zipsigner-3.0-dexed.jar "$ZIP_FINAL".zip "$ZIP_FINAL"-signed.zip
 	ZIP_FINAL="$ZIP_FINAL-signed"
 	cd ..
 }
