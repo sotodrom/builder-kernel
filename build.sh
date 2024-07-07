@@ -55,10 +55,10 @@ mkdir $ClangPath
 
 msg "|| Cloning AOSP Clang ||"
 #git clone --depth=1 https://gitlab.com/ImSurajxD/clang-r450784d -b master $ClangPath
-#wget -q https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/master/clang-r498229b.tar.gz -O "clang-r498229b.tar.gz"
-#tar -xf clang-r498229b.tar.gz -C $ClangPath
-wget -q https://github.com/ftrsndrya/ElectroWizard-Clang/releases/download/ElectroWizard-Clang-19.0.0-release/ElectroWizard-Clang-19.0.0.tar.gz -O "ElectroWizard-Clang-19.0.0.tar.gz"
-tar -xf ElectroWizard-Clang-19.0.0.tar.gz -C $ClangPath
+wget -q https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/master/clang-r498229b.tar.gz -O "clang-r498229b.tar.gz"
+tar -xf clang-r498229b.tar.gz -C $ClangPath
+#wget -q https://github.com/ftrsndrya/ElectroWizard-Clang/releases/download/ElectroWizard-Clang-19.0.0-release/ElectroWizard-Clang-19.0.0.tar.gz -O "ElectroWizard-Clang-19.0.0.tar.gz"
+#tar -xf ElectroWizard-Clang-19.0.0.tar.gz -C $ClangPath
 
 # Clone GCC
 rm -rf $GCCaPath/*
@@ -186,10 +186,10 @@ function finerr() {
 # Zipping
 function zipping() {
 	cd AnyKernel || exit 1
-	zip -r9 $ZIPNAME-"$DATE2" * -x .git README.md ./*placeholder .gitignore  zipsigner* *.zip
+	zip -r9 $ZIPNAME-"$DATE" * -x .git README.md ./*placeholder .gitignore  zipsigner* *.zip
  
 	## Prepare a final zip variable
-	ZIP_FINAL="$ZIPNAME-$DATE2"
+	ZIP_FINAL="$ZIPNAME-$DATE"
 
 	msg "|| Signing Zip ||"
 	tg_post_msg "<code>🔑 Signing Zip file with AOSP keys..</code>"
