@@ -32,13 +32,13 @@ GCCaPath="${MainPath}/GCC64"
 GCCbPath="${MainPath}/GCC32"
 
 # Identity
-KERNELNAME=TheOneMemory
+KERNELNAME=TOM
 CODENAME=Nothing
 VARIANT=EAS
 BASE=android13-4.19-sdm660
 
 # The name of the Kernel, to name the ZIP
-ZIPNAME="$KERNELNAME-UDC-4-19-315"
+ZIPNAME="$KERNELNAME-4-19-315"
 
 # Show manufacturer info
 MANUFACTURERINFO="ASUSTek Computer Inc."
