@@ -32,13 +32,13 @@ GCCaPath="${MainPath}/GCC64"
 GCCbPath="${MainPath}/GCC32"
 
 # Identity
-KERNELNAME=SkyWalker
-CODENAME=Rebase
+KERNELNAME=TOM
+CODENAME=X00TD
 VARIANT=EAS
 BASE=android-4.19-stable
 
 # The name of the Kernel, to name the ZIP
-ZIPNAME="$KERNELNAME-4-19-315"
+ZIPNAME="$KERNELNAME-$CODENAME-4-19-318"
 
 # Show manufacturer info
 MANUFACTURERINFO="ASUSTek Computer Inc."
@@ -125,7 +125,7 @@ cd ${KERNEL_ROOTDIR}
 export HASH_HEAD=$(git rev-parse --short HEAD)
 export COMMIT_HEAD=$(git log --oneline -1)
 msg "|| Compile starting ||"
-make -j$(nproc) O=out ARCH=arm64 asus/X00TD_defconfig
+make -j$(nproc) O=out ARCH=arm64 vendor/X00TD_defconfig 2>&1 | tee -a error.log
 make -j$(nproc) ARCH=arm64 O=out LLVM=1 \
     LD_LIBRARY_PATH="${ClangPath}/lib64:${LD_LIBRARY_PATH}" \
     PATH=$ClangPath/bin:$GCCaPath/bin:$GCCbPath/bin:/usr/bin:${PATH} \
@@ -143,7 +143,7 @@ make -j$(nproc) ARCH=arm64 O=out LLVM=1 \
     CLANG_TRIPLE=aarch64-linux-gnu- \
     HOSTAR=${ClangPath}/bin/llvm-ar \
     HOSTCC=${ClangPath}/bin/clang \
-    HOSTCXX=${ClangPath}/bin/clang++
+    HOSTCXX=${ClangPath}/bin/clang++ 2>&1 | tee -a error.log
 
    if ! [ -a "$IMAGE" ]; then
 	finerr
@@ -178,7 +178,7 @@ function finerr() {
         -d chat_id="$TG_CHAT_ID" \
         -d "disable_web_page_preview=true" \
         -d "parse_mode=markdown" \
-        -d text="❌ Tetap menyerah...Pasti bisa!!!"
+        -d text="error.log" "❌ Tetap menyerah...Pasti bisa!!!"
     exit 1
 }
 # Zipping
