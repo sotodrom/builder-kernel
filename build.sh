@@ -46,7 +46,7 @@ MANUFACTURERINFO="ASUSTek Computer Inc."
 # Clone Kernel Source
 echo " "
 msg "|| Cloning Kernel Source ||"
-git clone --depth=1 --recursive https://github.com/texascake/android_kernel_asus_sdm660-4.19 kernel
+git clone --depth=1 --recursive https://github.com/Tiktodz/android_kernel_asus_sdm660 kernel
 
 # Clone AOSP Clang
 [[ "$(pwd)" != "${MainPath}" ]] && cd "${MainPath}"
@@ -77,6 +77,7 @@ export LD=ld.lld
 export HOSTLD=ld.lld
 export CCACHE=1
 export LLVM=1
+export LLVM_IAS=1
 export KBUILD_BUILD_USER=queen # Change with your own name or else.
 export KBUILD_BUILD_HOST=github-actions # Change with your own host name or else.
 IMAGE=$KERNEL_ROOTDIR/out/arch/arm64/boot/Image.gz-dtb
