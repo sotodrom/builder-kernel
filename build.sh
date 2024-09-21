@@ -137,7 +137,7 @@ make -j$(nproc) ARCH=arm64 O=out \
     PATH=$ClangPath/bin:${PATH} \
     ARCH=$ARCH \
     SUBARCH=$ARCH \
-    CC="$KERNEL_ROOTDIR/ew/bin/clang" \
+    CC="$KERNEL_ROOTDIR/$ClangPath/bin/clang" \
     CROSS_COMPILE=aarch64-linux-gnu- \
     HOSTCC="$KERNEL_ROOTDIR/$ClangPath/bin/clang" \
     HOSTCXX="$KERNEL_ROOTDIR/$ClangPath/bin/clang++" ${ClangMoreStrings} 2>&1 | tee -a error.log
