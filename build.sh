@@ -99,9 +99,6 @@ START=$(date +"%s")
 # Java
 command -v java > /dev/null 2>&1
 
-# Check Kernel Version
-KERVER=$(cd $KERNEL_ROOTDIR; make kernelversion)
-
 # Telegram
 export BOT_MSG_URL="https://api.telegram.org/bot$TG_TOKEN/sendMessage"
 export BOT_BUILD_URL="https://api.telegram.org/bot$TG_TOKEN/sendDocument"
@@ -130,6 +127,8 @@ make="./makeparallel"
 # Compiler
 compile(){
 cd ${KERNEL_ROOTDIR}
+# Check Kernel Version
+KERVER=$(make kernelversion)
 export HASH_HEAD=$(git rev-parse --short HEAD)
 export COMMIT_HEAD=$(git log --oneline -1)
 msg "|| Compile starting ||"
@@ -140,7 +139,7 @@ make -j$(nproc) ARCH=arm64 O=out \
     CC="$ClangPath/bin/clang" \
     CROSS_COMPILE=aarch64-linux-gnu- \
     HOSTCC="$ClangPath/bin/clang" \
-    HOSTCXX="$$ClangPath/bin/clang++" ${ClangMoreStrings} 2>&1 | tee -a error.log
+    HOSTCXX="$ClangPath/bin/clang++" ${ClangMoreStrings} 2>&1 | tee -a error.log
 
    if ! [ -a "$IMAGE" ]; then
 	finerr
