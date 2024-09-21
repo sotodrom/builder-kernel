@@ -92,7 +92,7 @@ export KBUILD_COMPILER_STRING="$CLANG_VER with $LLD_VER"
 DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%H%M")
 DATE2=$(TZ=Asia/Jakarta date +"%Y%m%d")
 START=$(date +"%s")
-ClangMoreStrings="AR=llvm-ar NM=llvm-nm AS=llvm-as STRIP=llvm-strip OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump READELF=llvm-readelf HOSTAR=llvm-ar HOSTAS=llvm-as LD_LIBRARY_PATH=$KERNELDIR/ew/lib LD=ld.lld HOSTLD=ld.lld"
+ClangMoreStrings="AR=llvm-ar NM=llvm-nm AS=llvm-as STRIP=llvm-strip OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump READELF=llvm-readelf HOSTAR=llvm-ar HOSTAS=llvm-as LD_LIBRARY_PATH=$KERNEL_ROOTDIR/$ClangPath/lib LD=ld.lld HOSTLD=ld.lld"
 
 # Java
 command -v java > /dev/null 2>&1
