@@ -54,25 +54,30 @@ rm -rf $ClangPath/*
 mkdir $ClangPath
 
 msg "|| Cloning AOSP Clang ||"
-wget -q https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/master/clang-r498229b.tar.gz -O "clang-r498229b.tar.gz"
-tar -xf clang-r498229b.tar.gz -C $ClangPath
+#wget -q https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/master/clang-r498229b.tar.gz -O "clang-r498229b.tar.gz"
+#tar -xf clang-r498229b.tar.gz -C $ClangPath
+wget -q https://github.com/Tiktodz/electrowizard-clang/releases/download/ElectroWizard-Clang-18.1.8-release/ElectroWizard-Clang-18.1.8.tar.gz -O "ElectroWizard-Clang-18.1.8.tar.gz"
+tar -xf ElectroWizard-Clang-18.1.8.tar.gz -C $ClangPath
+rm -rf ElectroWizard-Clang-18.1.8.tar.gz
 
 # Clone GCC
-rm -rf $GCCaPath/*
-rm -rf $GCCbPath/*
-mkdir $GCCaPath
-mkdir $GCCbPath
-msg "|| Cloning AOSP GCC ||"
-wget -q https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/+archive/refs/tags/android-12.1.0_r27.tar.gz -O "gcc64.tar.gz"
-tar -xf gcc64.tar.gz -C $GCCaPath
-wget -q https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/+archive/refs/tags/android-12.1.0_r27.tar.gz -O "gcc32.tar.gz"
-tar -xf gcc32.tar.gz -C $GCCbPath
+#rm -rf $GCCaPath/*
+#rm -rf $GCCbPath/*
+#mkdir $GCCaPath
+#mkdir $GCCbPath
+#msg "|| Cloning AOSP GCC ||"
+#wget -q https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/+archive/refs/tags/android-12.1.0_r27.tar.gz -O "gcc64.tar.gz"
+#tar -xf gcc64.tar.gz -C $GCCaPath
+#wget -q https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/+archive/refs/tags/android-12.1.0_r27.tar.gz -O "gcc32.tar.gz"
+#tar -xf gcc32.tar.gz -C $GCCbPath
 
 ##------------------------------------------------------##
 ##---------Do Not Touch Anything Beyond This------------##
 
 # Prepared
 KERNEL_ROOTDIR=$(pwd)/kernel # IMPORTANT ! Fill with your kernel source root directory.
+export ARCH=arm64
+export SUBARCH=arm64
 export LD=ld.lld
 export HOSTLD=ld.lld
 export CCACHE=1
@@ -87,6 +92,7 @@ export KBUILD_COMPILER_STRING="$CLANG_VER with $LLD_VER"
 DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%H%M")
 DATE2=$(TZ=Asia/Jakarta date +"%Y%m%d")
 START=$(date +"%s")
+ClangMoreStrings="AR=llvm-ar NM=llvm-nm AS=llvm-as STRIP=llvm-strip OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump READELF=llvm-readelf HOSTAR=llvm-ar HOSTAS=llvm-as LD_LIBRARY_PATH=$KERNELDIR/ew/lib LD=ld.lld HOSTLD=ld.lld"
 
 # Java
 command -v java > /dev/null 2>&1
@@ -126,24 +132,15 @@ export HASH_HEAD=$(git rev-parse --short HEAD)
 export COMMIT_HEAD=$(git log --oneline -1)
 msg "|| Compile starting ||"
 make -j$(nproc) O=out ARCH=arm64 vendor/X00TD_defconfig 2>&1 | tee -a error.log
-make -j$(nproc) ARCH=arm64 O=out LLVM=1 \
+make -j$(nproc) ARCH=arm64 O=out \
     LD_LIBRARY_PATH="${ClangPath}/lib64:${LD_LIBRARY_PATH}" \
-    PATH=$ClangPath/bin:$GCCaPath/bin:$GCCbPath/bin:/usr/bin:${PATH} \
-    CC=${ClangPath}/bin/clang \
-    NM=${ClangPath}/bin/llvm-nm \
-    CXX=${ClangPath}/bin/clang++ \
-    AR=${ClangPath}/bin/llvm-ar \
-    STRIP=${ClangPath}/bin/llvm-strip \
-    OBJCOPY=${ClangPath}/bin/llvm-objcopy \
-    OBJDUMP=${ClangPath}/bin/llvm-objdump \
-    OBJSIZE=${ClangPath}/bin/llvm-size \
-    READELF=${ClangPath}/bin/llvm-readelf \
-    CROSS_COMPILE=aarch64-linux-android- \
-    CROSS_COMPILE_ARM32=arm-linux-androideabi- \
-    CLANG_TRIPLE=aarch64-linux-gnu- \
-    HOSTAR=${ClangPath}/bin/llvm-ar \
-    HOSTCC=${ClangPath}/bin/clang \
-    HOSTCXX=${ClangPath}/bin/clang++ 2>&1 | tee -a error.log
+    PATH=$ClangPath/bin:${PATH} \
+    ARCH=$ARCH \
+    SUBARCH=$ARCH \
+    CC="$KERNELDIR/ew/bin/clang" \
+    CROSS_COMPILE=aarch64-linux-gnu- \
+    HOSTCC="$KERNELDIR/ew/bin/clang" \
+    HOSTCXX="$KERNELDIR/ew/bin/clang++" ${ClangMoreStrings} 2>&1 | tee -a error.log
 
    if ! [ -a "$IMAGE" ]; then
 	finerr
