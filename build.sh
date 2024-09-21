@@ -137,10 +137,10 @@ make -j$(nproc) ARCH=arm64 O=out \
     PATH=$ClangPath/bin:${PATH} \
     ARCH=$ARCH \
     SUBARCH=$ARCH \
-    CC="$KERNELDIR/ew/bin/clang" \
+    CC="$KERNEL_ROOTDIR/ew/bin/clang" \
     CROSS_COMPILE=aarch64-linux-gnu- \
-    HOSTCC="$KERNELDIR/ew/bin/clang" \
-    HOSTCXX="$KERNELDIR/ew/bin/clang++" ${ClangMoreStrings} 2>&1 | tee -a error.log
+    HOSTCC="$KERNEL_ROOTDIR/$ClangPath/bin/clang" \
+    HOSTCXX="$KERNEL_ROOTDIR/$ClangPath/bin/clang++" ${ClangMoreStrings} 2>&1 | tee -a error.log
 
    if ! [ -a "$IMAGE" ]; then
 	finerr
