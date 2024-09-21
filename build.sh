@@ -78,9 +78,9 @@ rm -rf ElectroWizard-Clang-18.1.8.tar.gz
 KERNEL_ROOTDIR=$(pwd)/kernel # IMPORTANT ! Fill with your kernel source root directory.
 export ARCH=arm64
 export SUBARCH=arm64
-export LD=ld.lld
-export HOSTLD=ld.lld
-export CCACHE=1
+#export LD=ld.lld
+#export HOSTLD=ld.lld
+#export CCACHE=1
 export LLVM=1
 export LLVM_IAS=1
 export KBUILD_BUILD_USER=queen # Change with your own name or else.
@@ -89,10 +89,12 @@ IMAGE=$KERNEL_ROOTDIR/out/arch/arm64/boot/Image.gz-dtb
 CLANG_VER="$("$ClangPath"/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')"
 LLD_VER="$("$ClangPath"/bin/ld.lld --version | head -n 1)"
 export KBUILD_COMPILER_STRING="$CLANG_VER with $LLD_VER"
+ClangMoreStrings="AR=llvm-ar NM=llvm-nm AS=llvm-as STRIP=llvm-strip OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump READELF=llvm-readelf HOSTAR=llvm-ar HOSTAS=llvm-as LD_LIBRARY_PATH=$ClangPath/lib LD=ld.lld HOSTLD=ld.lld"
+LD_LIBRARY_PATH="${ClangPath}/lib64:${LD_LIBRARY_PATH}"
+PATH=$ClangPath/bin:${PATH}
 DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%H%M")
 DATE2=$(TZ=Asia/Jakarta date +"%Y%m%d")
 START=$(date +"%s")
-ClangMoreStrings="AR=llvm-ar NM=llvm-nm AS=llvm-as STRIP=llvm-strip OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump READELF=llvm-readelf HOSTAR=llvm-ar HOSTAS=llvm-as LD_LIBRARY_PATH=$KERNEL_ROOTDIR/$ClangPath/lib LD=ld.lld HOSTLD=ld.lld"
 
 # Java
 command -v java > /dev/null 2>&1
@@ -133,14 +135,12 @@ export COMMIT_HEAD=$(git log --oneline -1)
 msg "|| Compile starting ||"
 make -j$(nproc) O=out ARCH=arm64 vendor/X00TD_defconfig 2>&1 | tee -a error.log
 make -j$(nproc) ARCH=arm64 O=out \
-    LD_LIBRARY_PATH="${ClangPath}/lib64:${LD_LIBRARY_PATH}" \
-    PATH=$ClangPath/bin:${PATH} \
     ARCH=$ARCH \
     SUBARCH=$ARCH \
-    CC="$KERNEL_ROOTDIR/$ClangPath/bin/clang" \
+    CC="$ClangPath/bin/clang" \
     CROSS_COMPILE=aarch64-linux-gnu- \
-    HOSTCC="$KERNEL_ROOTDIR/$ClangPath/bin/clang" \
-    HOSTCXX="$KERNEL_ROOTDIR/$ClangPath/bin/clang++" ${ClangMoreStrings} 2>&1 | tee -a error.log
+    HOSTCC="$ClangPath/bin/clang" \
+    HOSTCXX="$$ClangPath/bin/clang++" ${ClangMoreStrings} 2>&1 | tee -a error.log
 
    if ! [ -a "$IMAGE" ]; then
 	finerr
