@@ -151,7 +151,7 @@ make -j$(nproc) ARCH=arm64 O=out \
 # Push kernel to telegram
 function push() {
     cd AnyKernel
-    curl -F document=@"$ZIP_FINAL2.zip" "$BOT_BUILD_URL" \
+    curl -F document=@"$ZIP_FINAL.zip" "$BOT_BUILD_URL" \
         -F chat_id="$TG_CHAT_ID" \
         -F "disable_web_page_preview=true" \
         -F "parse_mode=html" \
@@ -190,9 +190,7 @@ function zipping() {
 
 	curl -sLo zipsigner-3.0-dexed.jar https://github.com/Magisk-Modules-Repo/zipsigner/raw/master/bin/zipsigner-3.0-dexed.jar
 	java -jar zipsigner-3.0-dexed.jar "$ZIP_FINAL".zip "$ZIP_FINAL"-signed.zip
-	ZIP_FINAL="$ZIP_FINAL-signed"
-	mv $ZIP_FINAL $ZIP_FINAL-$KERVER-signed
- 	ZIP_FINAL2="$ZIP_FINAL-$KERVER-signed"
+	ZIP_FINAL="$ZIP_FINAL-$KERVER-signed"
 	cd ..
 }
 
