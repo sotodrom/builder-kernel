@@ -38,7 +38,7 @@ VARIANT=EAS
 BASE=android-4.19-stable
 
 # The name of the Kernel, to name the ZIP
-ZIPNAME="$KERNELNAME-$CODENAME"
+ZIPNAME="$KERNELNAME-$CODENAME-4-19-318"
 
 # Show manufacturer info
 MANUFACTURERINFO="ASUSTek Computer Inc."
@@ -190,7 +190,7 @@ function zipping() {
 
 	curl -sLo zipsigner-3.0-dexed.jar https://github.com/Magisk-Modules-Repo/zipsigner/raw/master/bin/zipsigner-3.0-dexed.jar
 	java -jar zipsigner-3.0-dexed.jar "$ZIP_FINAL".zip "$ZIP_FINAL"-signed.zip
-	ZIP_FINAL="$ZIP_FINAL-$KERVER-signed"
+	ZIP_FINAL="$ZIP_FINAL-signed"
 	cd ..
 }
 
