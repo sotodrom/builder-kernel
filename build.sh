@@ -38,7 +38,7 @@ VARIANT=EAS
 BASE=android-4.19-stable
 
 # The name of the Kernel, to name the ZIP
-ZIPNAME="$KERNELNAME-$CODENAME-4-19-318"
+ZIPNAME="$KERNELNAME-$CODENAME-4-19-322"
 
 # Show manufacturer info
 MANUFACTURERINFO="ASUSTek Computer Inc."
