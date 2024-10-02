@@ -174,7 +174,7 @@ function finerr() {
         -d chat_id="$TG_CHAT_ID" \
         -d "disable_web_page_preview=true" \
         -d "parse_mode=markdown" \
-        -d text="error.log" "❌ Tetap menyerah...Pasti bisa!!!"
+        -d text="❌ Tetap menyerah...Pasti bisa!!!" "error.log"
     exit 1
 }
 # Zipping
