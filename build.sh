@@ -132,7 +132,7 @@ KERVER=$(make kernelversion)
 export HASH_HEAD=$(git rev-parse --short HEAD)
 export COMMIT_HEAD=$(git log --oneline -1)
 msg "|| Compile starting ||"
-make -j$(nproc) O=out ARCH=arm64 vendor/X00TD_defconfig 2>&1 | tee -a error.log
+make -j$(nproc) O=out ARCH=arm64 asus/X00TD_defconfig 2>&1 | tee -a error.log
 make -j$(nproc) ARCH=arm64 O=out \
     ARCH=$ARCH \
     SUBARCH=$ARCH \
