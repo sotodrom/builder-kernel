@@ -151,7 +151,6 @@ make -j$(nproc) ARCH=arm64 O=out \
 # Push kernel to telegram
 function push() {
     cd AnyKernel
-    mv $ZIP_FINAL.zip $ZIP_FINAL-$KERVER.zip
     curl -F document=@"$ZIP_FINAL.zip" "$BOT_BUILD_URL" \
         -F chat_id="$TG_CHAT_ID" \
         -F "disable_web_page_preview=true" \
