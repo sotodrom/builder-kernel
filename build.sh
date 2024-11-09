@@ -179,19 +179,17 @@ function finerr() {
 }
 # Zipping
 function zipping() {
-cd AnyKernel
+cd AnyKernel || exit 1
 zip -r9 $FINAL_ZIP.zip * -x .git README.md ./*placeholder .gitignore  zipsigner* *.zip
 
 mv $FINAL_ZIP* $KERNEL_ROOTDIR/$FINAL_ZIP.zip
-cd $KERNELDIR
+cd $KERNEL_ROOTDIR
 
   mv $FINAL_ZIP* krenul.zip
   curl -sLo zipsigner-3.0.jar https://github.com/Magisk-Modules-Repo/zipsigner/raw/master/bin/zipsigner-3.0-dexed.jar
   java -jar zipsigner-3.0.jar krenul.zip krenul-signed.zip
   FINAL_ZIP="$FINAL_ZIP-signed"
-  mv krenul-signed.zip $FINAL_ZIP.zip
-cd ..
-
+  mv krenul-signed.zip $FINAL_ZIP.zip $$ cd ..
 }
 compile
 zipping
