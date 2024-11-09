@@ -38,7 +38,7 @@ VARIANT=EAS
 BASE=android-4.19-stable
 
 # The name of the Kernel, to name the ZIP
-ZIPNAME="$KERNELNAME-$CODENAME"
+FINAL_ZIP="$KERNELNAME-$CODENAME-$KERVER-$DATE2"
 
 # Show manufacturer info
 MANUFACTURERINFO="ASUSTek Computer Inc."
@@ -151,7 +151,7 @@ make -j$(nproc) ARCH=arm64 O=out \
 # Push kernel to telegram
 function push() {
     cd AnyKernel
-    curl -F document=@"$ZIP_FINAL.zip" "$BOT_BUILD_URL" \
+    curl -F document=@"$FINAL_ZIP.zip" "$BOT_BUILD_URL" \
         -F chat_id="$TG_CHAT_ID" \
         -F "disable_web_page_preview=true" \
         -F "parse_mode=html" \
@@ -179,21 +179,20 @@ function finerr() {
 }
 # Zipping
 function zipping() {
-	cd AnyKernel || exit 1
-	zip -r9 $ZIPNAME-"$DATE2" * -x .git README.md ./*placeholder .gitignore  zipsigner* *.zip
- 
-	## Prepare a final zip variable
-	ZIP_FINAL="$ZIPNAME-$DATE2"
+cd AnyKernel
+zip -r9 $FINAL_ZIP.zip * -x .git README.md ./*placeholder .gitignore  zipsigner* *.zip
 
-	msg "|| Signing Zip ||"
-	tg_post_msg "<code>🔑 Signing Zip file with AOSP keys..</code>"
+mv $FINAL_ZIP* $KERNEL_ROOTDIR/$FINAL_ZIP.zip
+cd $KERNELDIR
 
-	curl -sLo zipsigner-3.0-dexed.jar https://github.com/Magisk-Modules-Repo/zipsigner/raw/master/bin/zipsigner-3.0-dexed.jar
-	java -jar zipsigner-3.0-dexed.jar "$ZIP_FINAL".zip "$ZIP_FINAL"-signed.zip
-	ZIP_FINAL="$ZIP_FINAL-signed"
-	cd ..
+  mv $FINAL_ZIP* krenul.zip
+  curl -sLo zipsigner-3.0.jar https://github.com/Magisk-Modules-Repo/zipsigner/raw/master/bin/zipsigner-3.0-dexed.jar
+  java -jar zipsigner-3.0.jar krenul.zip krenul-signed.zip
+  FINAL_ZIP="$FINAL_ZIP-signed"
+  mv krenul-signed.zip $FINAL_ZIP.zip
+cd ..
+
 }
-
 compile
 zipping
 END=$(date +"%s")
