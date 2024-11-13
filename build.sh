@@ -110,10 +110,10 @@ tg_post_build() {
 
     #Show the Checksum alongwith caption
     curl --progress-bar -F document=@"$1" "$BOT_BUILD_URL" \
-    -F chat_id="$2"  \
+    -F chat_id="TG_CHAT_ID"  \
     -F "disable_web_page_preview=true" \
     -F "parse_mode=html" \
-    -F caption="$3 | <b>MD5 Checksum : </b><code>$MD5CHECK</code>"  
+    -F caption="$2 | <b>MD5 Checksum : </b><code>$MD5CHECK</code>"
 }
 
 # Telegram messaging
@@ -133,14 +133,14 @@ KERVER=$(make kernelversion)
 export HASH_HEAD=$(git rev-parse --short HEAD)
 export COMMIT_HEAD=$(git log --oneline -1)
 msg "|| Compile starting ||"
-make -j$(nproc) O=out ARCH=arm64 asus/X00TD_defconfig 2>&1 | tee -a error.log
+make -j$(nproc) O=out ARCH=arm64 asus/X00TD_defconfig "${MAKE[@]}" 2>&1 | tee build.log
 make -j$(nproc) ARCH=arm64 O=out \
     ARCH=$ARCH \
     SUBARCH=$ARCH \
     CC="$ClangPath/bin/clang" \
     CROSS_COMPILE=aarch64-linux-gnu- \
     HOSTCC="$ClangPath/bin/clang" \
-    HOSTCXX="$ClangPath/bin/clang++" ${ClangMoreStrings} 2>&1 | tee -a error.log
+    HOSTCXX="$ClangPath/bin/clang++" ${ClangMoreStrings} "${MAKE[@]}" 2>&1 | tee build.log
 
    if ! [ -a "$IMAGE" ]; then
 	finerr
@@ -175,7 +175,7 @@ function finerr() {
         -d chat_id="$TG_CHAT_ID" \
         -d "disable_web_page_preview=true" \
         -d "parse_mode=markdown" \
-        -d text="❌ Tetap menyerah...Pasti bisa!!!" "error.log"
+        -d text="❌ Tetap menyerah...Pasti bisa!!!" "build.log"
     exit 1
 }
 # Zipping
